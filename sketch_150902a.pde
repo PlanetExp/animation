@@ -161,13 +161,38 @@ class Frames {
 
 }
 
+class Point {
+
+	int ID; // unique id for this object
+	float x; // y-axis
+	float y; // x-axis
+
+}
+
+// TODO: rename to ControlPoint
+// class for the controlpoint of a keyPoint
+class ControlHandle extends Point {
+
+	ControlHandle(float ix, float iy) {
+
+		x = ix; // x
+		y = iy; // y
+
+	}
+
+}
+
 // class for saving the y value of an object
 class KeyPoint {
 	int ID; // unique id for this object
 	float value, minValue, maxValue; // y-axis
 	int frame; // x-axis
 
-	
+	ControlHandle p;
+
+	// TODO:
+	// when its continous two points will become one and you have to mirror the controlpoint
+
 
 	KeyPoint(int iFrame, float iValue, float iMinValue, float iMaxValue) {
 
@@ -175,6 +200,9 @@ class KeyPoint {
 		value = iValue;
 		minValue = iMinValue;
 		maxValue = iMaxValue;
+
+		// TODO: create at default location offset from keyPoint
+		p = new ControlHandle(iFrame, iValue - 50);
 
 	}
 
@@ -184,7 +212,10 @@ class KeyPoint {
 	}
 }
 
+// class for drawing the keypoint in the interface
+class KeyPointView {
 
+}
 
 // class for storing the KeyFrames in a list
 // possibly a KeyPointController
