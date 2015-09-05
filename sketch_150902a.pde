@@ -167,6 +167,8 @@ class KeyPoint {
 	float value, minValue, maxValue; // y-axis
 	int frame; // x-axis
 
+	
+
 	KeyPoint(int iFrame, float iValue, float iMinValue, float iMaxValue) {
 
 		frame = iFrame;
@@ -181,6 +183,8 @@ class KeyPoint {
 		this(iFrame, iValue, 0, 0);
 	}
 }
+
+
 
 // class for storing the KeyFrames in a list
 // possibly a KeyPointController
