@@ -55,6 +55,11 @@ void setup() {
   	controlpoints.add(c2);
 
   	t = 0.0;
+
+
+  	// setting up the first aVar
+  	AVar avar = new AVar();
+
 }
 
 void draw() {
@@ -217,16 +222,40 @@ class KeyPointView {
 
 }
 
-// class for storing the KeyFrames in a list
-// possibly a KeyPointController
+/**
+ * Avar model
+ * 
+ */
 class AVar {
-	int ID; // unique id for this avar
+	public int ID = 0; // unique id for this avarController
+
+	private AVarView viewer 			= null;
+	private AVarController controller 	= null;
 	
-	ArrayList<KeyPoint> keypoints; // keep a list of the keypoints in this aVar
+	ArrayList<KeyPoint> keypoints; // keep a list of the keypoints in this aVarController
 
 	AVar() {
 
 		keypoints = new ArrayList<KeyPoint>();
+
+		ID++;
+
+	}
+
+	/* Mutator, sets the controller
+	 * @param c
+	 * 
+	 */
+	void setController( AVarController c ) { 
+
+		controller = c;
+
+	}
+
+	void setViewer( AVarView v ) {
+
+		viewer = v;
+
 	}
 
 	void createKeyPoint(int iFrame, float iValue, float iMinValue, float iMaxValue) {
@@ -245,12 +274,98 @@ class AVar {
 
 	}
 
+	KeyPoint getKeyPoint(int id) {
+
+		return keypoints.get(id);
+
+	}
+
+}
+
+/* AVar controller
+ * class for storing the KeyFrames in a list
+ * 
+ */  
+class AVarController {
+
+	AVarView aVarViewer = null; // viewer
+	AVar aVar = null; //model
+
+	AVarController() {
+
+		// keypoints = new ArrayList<KeyPoint>();
+
+		// ID++;
+
+	}
+
+	void setViewer( AVarView v ) {
+		aVarViewer = v;
+	}
+
+	void setModel( AVar m ) {
+		aVar = m;
+	}
+
+	void initAll( AVarView v ) {
+		aVarViewer = v; // init viewer
+
+		aVar = new AVar(); // create model
+
+		// create references
+		aVar.setController( this );
+		aVarViewer.setModel( aVar );
+		aVar.setViewer( aVarViewer );
+
+		// setup the graph
+	}
+	
+	// called by viewer when the mouse is over a given vertex.
+	void setVertexUnderMouse( int vertex ) {
+
+        // display vertex name
+        // viewer.displayVertexName( vertex );
+        // display adjacency list
+        // viewer.displayAdjacencyList( vertex );
+
+	}
 
 
 }
 
-// class for the interface of the aVar
+/* class for the interface of the aVar
+ *
+ *
+ */
 class AVarView {
+
+	AVarController controller = null; // viewer
+	AVar aVar = null; //model
+
+	int WIDTH = 200;
+	int HEIGHT = 100;
+
+	AVarView() {
+
+		controller = new AVarController();
+		controller.initAll( this );
+
+	}
+
+	int closestVertextToMouse() {
+		return 0;
+	}
+
+	void setModel( AVar m ) {
+        aVar = m;
+    }
+
+    // helper function for getting the xy out of a keypoint in the list
+    float getKeyPointValue(int keyPoint) {
+
+    	// stub
+    	return 0.0;
+    }
 
 	void run() {
 		this.update();
@@ -262,6 +377,12 @@ class AVarView {
 	}
 
 	void display() {
+
+
+		// TODD: draw background and lines around the thing
+
+
+		// TODO: display a Controlpoint at each keyPoint location
 
 
 		// rectangle with top and bottom bar
