@@ -21,6 +21,9 @@ Handler selectedHandler;
 // cloud probably be hashmap
 ArrayList<Frame> frames;
 
+AVarView avar;
+ArrayList<AVarView> avars;
+
 void setup() {
   	size(500, 500);
   	smooth();
@@ -58,7 +61,10 @@ void setup() {
 
 
   	// setting up the first aVar
-  	AVar avar = new AVar();
+  	avar = new AVarView();
+
+  	// keep a list of all avars
+  	avars = new ArrayList<AVarView>();
 
 }
 
@@ -66,6 +72,7 @@ void draw() {
   
 	background(100);
   
+  	avar.run();
 
 	// code for displayng the top bar
 
@@ -166,236 +173,41 @@ class Frames {
 
 }
 
-class Point {
-
-	int ID; // unique id for this object
-	float x; // y-axis
-	float y; // x-axis
-
-}
+/*
 
 // TODO: rename to ControlPoint
 // class for the controlpoint of a keyPoint
-class ControlHandle extends Point {
+class ControlPoint2 {
 
-	ControlHandle(float ix, float iy) {
+	private KeyPoint keyPoint = null;
 
-		x = ix; // x
-		y = iy; // y
-
+	void setKeyPoint( KeyPoint k ) {
+		keyPoint = k;
 	}
 
 }
 
-// class for saving the y value of an object
-class KeyPoint {
-	int ID; // unique id for this object
-	float value, minValue, maxValue; // y-axis
-	int frame; // x-axis
-
-	ControlHandle p;
-
-	// TODO:
-	// when its continous two points will become one and you have to mirror the controlpoint
 
 
-	KeyPoint(int iFrame, float iValue, float iMinValue, float iMaxValue) {
-
-		frame = iFrame;
-		value = iValue;
-		minValue = iMinValue;
-		maxValue = iMaxValue;
-
-		// TODO: create at default location offset from keyPoint
-		p = new ControlHandle(iFrame, iValue - 50);
-
-	}
-
-	KeyPoint(int iFrame, float iValue) {
-
-		this(iFrame, iValue, 0, 0);
-	}
-}
-
-// class for drawing the keypoint in the interface
-class KeyPointView {
-
-}
-
-/**
- * Avar model
- * 
+/*
+ * class for displaying the curve between control points
  */
-class AVar {
-	public int ID = 0; // unique id for this avarController
+class BezierCurve {
 
-	private AVarView viewer 			= null;
-	private AVarController controller 	= null;
-	
-	ArrayList<KeyPoint> keypoints; // keep a list of the keypoints in this aVarController
+	float x, y, x1, y1, x2, y2, x3, y3;
 
-	AVar() {
-
-		keypoints = new ArrayList<KeyPoint>();
-
-		ID++;
-
-	}
-
-	/* Mutator, sets the controller
-	 * @param c
-	 * 
-	 */
-	void setController( AVarController c ) { 
-
-		controller = c;
-
-	}
-
-	void setViewer( AVarView v ) {
-
-		viewer = v;
-
-	}
-
-	void createKeyPoint(int iFrame, float iValue, float iMinValue, float iMaxValue) {
-
-		KeyPoint k = new KeyPoint(iFrame, iValue, iMinValue, iMaxValue);
-		keypoints.add(k);
-
-	}
-
-	void deleteKeyPoint(KeyPoint k) {
-
-		// TODO:
-		// check if exists
-
-		keypoints.remove(k);
-
-	}
-
-	KeyPoint getKeyPoint(int id) {
-
-		return keypoints.get(id);
-
-	}
-
-}
-
-/* AVar controller
- * class for storing the KeyFrames in a list
- * 
- */  
-class AVarController {
-
-	AVarView aVarViewer = null; // viewer
-	AVar aVar = null; //model
-
-	AVarController() {
-
-		// keypoints = new ArrayList<KeyPoint>();
-
-		// ID++;
-
-	}
-
-	void setViewer( AVarView v ) {
-		aVarViewer = v;
-	}
-
-	void setModel( AVar m ) {
-		aVar = m;
-	}
-
-	void initAll( AVarView v ) {
-		aVarViewer = v; // init viewer
-
-		aVar = new AVar(); // create model
-
-		// create references
-		aVar.setController( this );
-		aVarViewer.setModel( aVar );
-		aVar.setViewer( aVarViewer );
-
-		// setup the graph
-	}
-	
-	// called by viewer when the mouse is over a given vertex.
-	void setVertexUnderMouse( int vertex ) {
-
-        // display vertex name
-        // viewer.displayVertexName( vertex );
-        // display adjacency list
-        // viewer.displayAdjacencyList( vertex );
-
-	}
-
-
-}
-
-/* class for the interface of the aVar
- *
- *
- */
-class AVarView {
-
-	AVarController controller = null; // viewer
-	AVar aVar = null; //model
-
-	int WIDTH = 200;
-	int HEIGHT = 100;
-
-	AVarView() {
-
-		controller = new AVarController();
-		controller.initAll( this );
-
-	}
-
-	int closestVertextToMouse() {
-		return 0;
-	}
-
-	void setModel( AVar m ) {
-        aVar = m;
-    }
-
-    // helper function for getting the xy out of a keypoint in the list
-    float getKeyPointValue(int keyPoint) {
-
-    	// stub
-    	return 0.0;
-    }
-
-	void run() {
-		this.update();
-		this.display();
-	}
-
-	void update() {
-
-	}
 
 	void display() {
 
-
-		// TODD: draw background and lines around the thing
-
-
-		// TODO: display a Controlpoint at each keyPoint location
-
-
-		// rectangle with top and bottom bar
-		// little bit lighter background
-
-		fill(200); // light grey
-		rect(0, 300, width, 100); // background
-
-		// separate with line
-		line(0, 300, width, 300);
-
 	}
+
 }
+
+
+
+
+
+
 
 class Button {
 
