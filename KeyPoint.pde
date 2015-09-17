@@ -134,7 +134,8 @@ class Point {
 	private boolean locked = false;
 	private boolean overPoint = false;	
 
-	float maxRadius, minRadius;	
+	float maxRadius = r + 3;
+	float minRadius = r;
 
 	Point() {
 
@@ -159,13 +160,11 @@ class Point {
 		value = iy;
 
 		minRadius = r;
-		maxRadius = r + 3;		
+		maxRadius = r + (r * 0.5);		
 	}
 
 	void init() {
 		y = value + avar.y + avar.HEIGHT; 
-
-		println("y: "+y);
 	}
 
 	void setAVar( AVar a ) {
@@ -183,7 +182,7 @@ class Point {
 	}
 
 	boolean overCircular(float ix, float iy) {
-		if ( dist(x, y, ix, iy) < r ) {
+		if ( dist(x, y, ix, iy) < r * 1.1 ) { // make it slightly bigger selection
 			return true;
 		} else {
 			return false;
@@ -216,7 +215,6 @@ class Point {
 
 		    if ( r > minRadius) {
 		    	r -= sq(1.1); // shrink
-			    	
 		    }
 		}
 
@@ -254,6 +252,7 @@ class KeyPoint extends Point {
 	void createControlPoint() {
 		controlPoint = new KontrolPoint( this );
 		controlPoint.setColor(color(200, 50, 50)); //red
+		controlPoint.setRadius(r - 2);
 	}
 
 	void setControlPoint(KontrolPoint c) {
@@ -267,15 +266,13 @@ class KeyPoint extends Point {
 	@Override
 	void display() {
 
+		if (controlPoint != null) {
+			controlPoint.run();
+		}
+
 	    fill(c);
 	    noStroke();
 		ellipse(x, y, (r * 2), (r * 2) );
-
-		println("r: "+r);
-
-		if (controlPoint != null) {
-			controlPoint.display();
-		}
 
 	}
 
@@ -291,6 +288,10 @@ class KontrolPoint extends Point {
 		keyPoint = k;
 	}
 
+	void setRadius(float ir) {
+		r = ir;
+	}
+
 	void setKeyPoint( KeyPoint k ) {
 		keyPoint = k;
 	}
@@ -301,7 +302,6 @@ class KontrolPoint extends Point {
 
 	@Override
 	void display() {
-
 
 		strokeWeight(3);
   		stroke(color(200, 50 , 50)); // red
